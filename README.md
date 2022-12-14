@@ -1,6 +1,4 @@
-# Nuxt 3 Minimal Starter
-
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# Nuxt 3 and Apollo Server with Subscription (WS)
 
 ## Setup
 
@@ -23,6 +21,13 @@ Start the development server on http://localhost:3000
 
 ```bash
 npm run dev
+```
+
+Start the apollo server on http://localhost:4005/graphql,
+and Subscription endpoint on ws://localhost:4005/graphql
+
+```bash
+npm run dev:apollo-server
 ```
 
 ## Production
