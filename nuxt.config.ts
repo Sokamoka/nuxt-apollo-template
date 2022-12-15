@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  rootDir: './',
   ignore: ["apollo-server"],
   modules: ["@nuxtjs/apollo", "@nuxtjs/tailwindcss"],
 
