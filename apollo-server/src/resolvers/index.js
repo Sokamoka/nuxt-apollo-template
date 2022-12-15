@@ -1,4 +1,11 @@
-export * from "./test.js";
+import * as test from './test.js';
+import * as auth from './auth.js';
+
+export const resolvers = {
+  ...test.resolvers,
+  ...auth.resolvers,
+};
+
 // import fs from "fs";
 // import path from "path";
 
