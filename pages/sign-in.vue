@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const errorMessage = ref('');
 const state = reactive({
-  email: 'jd@example.com',
-  password: 'xxx',
+  email: 'soka@soka.hu',
+  password: 'abc123',
 });
 
 const query = gql`
@@ -15,10 +15,16 @@ const query = gql`
   }
 `;
 
+const router = useRouter();
+const { onLogin } = useApollo();
+
 const { mutate, onDone, onError } = useMutation(query);
 
 onDone((result) => {
   console.log(result);
+  const token = result.data?.loginUser?.token;
+  onLogin(token);
+  router.push({ path: '/dashboard' });
 });
 
 onError((error) => {

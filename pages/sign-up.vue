@@ -3,8 +3,8 @@ const errorMessage = ref('');
 
 const state = reactive({
   username: 'Akos Stegner',
-  email: 'jd@example.com',
-  password: 'xxx',
+  email: 'soka@soka.hu',
+  password: '',
 });
 
 const query = gql`

@@ -1,8 +1,11 @@
+import { connectDb } from './mongodb/database.js';
 import createHttpServer from './src/server.js';
 
 // Create Express server
 const port = 4005;
 const server = createHttpServer();
+
+connectDb();
 
 // Start Express server
 server.listen({ port }, () => {
