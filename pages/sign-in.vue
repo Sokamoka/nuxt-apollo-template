@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '../composables/useAuthStore';
-// const errorMessage = ref('');
+
 const state = reactive({
   email: 'soka@soka.hu',
   password: '',
@@ -8,38 +8,7 @@ const state = reactive({
 
 const store = useAuthStore();
 
-// const query = gql`
-//   mutation LoginUser($loginInput: LoginInput) {
-//     loginUser(loginInput: $loginInput) {
-//       email
-//       username
-//       token
-//     }
-//   }
-// `;
-
-// const router = useRouter();
-// const { onLogin } = useApollo();
-
-// const { mutate, onDone, onError } = useMutation(query);
-
-// onDone((result) => {
-//   console.log(result);
-//   const token = result.data?.loginUser?.token;
-//   onLogin(token);
-//   router.push({ path: '/dashboard' });
-// });
-
-// onError((error) => {
-//   errorMessage.value = error.message;
-// });
-
 const onSubmit = () => {
-  // mutate({
-  //   loginInput: {
-  //     ...state,
-  //   },
-  // });
   store.signIn(state);
 };
 </script>

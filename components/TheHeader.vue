@@ -7,10 +7,11 @@ const navigation = [
 ];
 
 const router = useRouter();
-const { onLogout } = useApollo();
+const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const onLogoutClick = () => {
-  onLogout();
+  authStore.signOut();
   router.push({ path: '/' });
 };
 </script>
@@ -36,24 +37,39 @@ const onLogoutClick = () => {
           </div>
         </div>
         <div class="ml-10 space-x-4">
-          <NuxtLink
-            to="/sign-in"
-            class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
-          >
-            Sign in
-          </NuxtLink>
-          <NuxtLink
-            to="/sign-up"
-            class="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-indigo-600 hover:bg-indigo-50"
-          >
-            Sign up
-          </NuxtLink>
-          <button
-            class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
-            @click="onLogoutClick"
-          >
-            Sign Out
-          </button>
+          <ClientOnly>
+            <template v-if="!userStore.isSignIn">
+              <NuxtLink
+                to="/sign-in"
+                class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
+              >
+                Sign in
+              </NuxtLink>
+              <NuxtLink
+                to="/sign-up"
+                class="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-indigo-600 hover:bg-indigo-50"
+              >
+                Sign up
+              </NuxtLink>
+            </template>
+            <template v-if="userStore.isSignIn">
+              <UserMenu />
+
+              <button
+                class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
+                @click="onLogoutClick"
+              >
+                Sign Out
+              </button>
+            </template>
+            <template #fallback>
+              <button
+                class="inline-block bg-transparent py-2 px-4 border border-transparent"
+              >
+                &nbsp;
+              </button>
+            </template>
+          </ClientOnly>
         </div>
       </div>
       <div class="py-4 flex flex-wrap justify-center space-x-6 lg:hidden">
