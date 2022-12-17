@@ -36,7 +36,7 @@ const onLogoutClick = () => {
             </NuxtLink>
           </div>
         </div>
-        <div class="ml-10 space-x-4">
+        <div class="ml-10 space-x-4 flex items-center">
           <ClientOnly>
             <template v-if="!userStore.isSignIn">
               <NuxtLink

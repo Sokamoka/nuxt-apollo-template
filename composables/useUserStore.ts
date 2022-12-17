@@ -1,4 +1,4 @@
-import { useLocalStorage } from "@vueuse/core";
+import { useLocalStorage } from '@vueuse/core';
 
 interface User {
   id: string;
@@ -6,16 +6,16 @@ interface User {
   email: string;
 }
 
-const defaultState = () => ({
+const defaultState = {
   id: '',
   username: '',
   email: '',
-})
+};
 
 export const useUserStore = defineStore('user', {
-  state: () => ({ user: <User | null>useLocalStorage("user", defaultState())  }),
+  state: () => ({ user: <User | null>useLocalStorage('user', defaultState) }),
   hydrate(state) {
-    state.user = useLocalStorage("user",  defaultState());
+    state.user = useLocalStorage('user', defaultState);
   },
   getters: {
     getUser: (state) => state.user,
@@ -28,11 +28,6 @@ export const useUserStore = defineStore('user', {
 
     resetUser() {
       this.user = null;
-      // this.user = {
-      //   id: '',
-      //   username: '',
-      //   email: '',
-      // };
     },
   },
 });
