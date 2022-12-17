@@ -1,42 +1,46 @@
 <script setup lang="ts">
-const errorMessage = ref('');
+import { useAuthStore } from '../composables/useAuthStore';
+// const errorMessage = ref('');
 const state = reactive({
   email: 'soka@soka.hu',
   password: '',
 });
 
-const query = gql`
-  mutation LoginUser($loginInput: LoginInput) {
-    loginUser(loginInput: $loginInput) {
-      email
-      username
-      token
-    }
-  }
-`;
+const store = useAuthStore();
 
-const router = useRouter();
-const { onLogin } = useApollo();
+// const query = gql`
+//   mutation LoginUser($loginInput: LoginInput) {
+//     loginUser(loginInput: $loginInput) {
+//       email
+//       username
+//       token
+//     }
+//   }
+// `;
 
-const { mutate, onDone, onError } = useMutation(query);
+// const router = useRouter();
+// const { onLogin } = useApollo();
 
-onDone((result) => {
-  console.log(result);
-  const token = result.data?.loginUser?.token;
-  onLogin(token);
-  router.push({ path: '/dashboard' });
-});
+// const { mutate, onDone, onError } = useMutation(query);
 
-onError((error) => {
-  errorMessage.value = error.message;
-});
+// onDone((result) => {
+//   console.log(result);
+//   const token = result.data?.loginUser?.token;
+//   onLogin(token);
+//   router.push({ path: '/dashboard' });
+// });
+
+// onError((error) => {
+//   errorMessage.value = error.message;
+// });
 
 const onSubmit = () => {
-  mutate({
-    loginInput: {
-      ...state,
-    },
-  });
+  // mutate({
+  //   loginInput: {
+  //     ...state,
+  //   },
+  // });
+  store.signIn(state);
 };
 </script>
 
@@ -54,8 +58,8 @@ const onSubmit = () => {
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <form class="space-y-6" @submit.prevent="onSubmit">
-          <div v-if="errorMessage" class="p-3 bg-red-100 rounded-md mb-5 text-red-500 border border-red-300">
-            {{ errorMessage }}
+          <div v-if="store.errorMessage" class="p-3 bg-red-100 rounded-md mb-5 text-red-500 border border-red-300">
+            {{ store.errorMessage }}
           </div>
 
           <div>
