@@ -5,6 +5,14 @@ const navigation = [
   // { name: 'Docs', href: '#' },
   // { name: 'Company', href: '#' },
 ];
+
+const router = useRouter();
+const { onLogout } = useApollo();
+
+const onLogoutClick = () => {
+  onLogout();
+  router.push({ path: '/' });
+};
 </script>
 
 <template>
@@ -40,12 +48,12 @@ const navigation = [
           >
             Sign up
           </NuxtLink>
-          <NuxtLink
-            to="/"
+          <button
             class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
+            @click="onLogoutClick"
           >
             Sign Out
-          </NuxtLink>
+          </button>
         </div>
       </div>
       <div class="py-4 flex flex-wrap justify-center space-x-6 lg:hidden">

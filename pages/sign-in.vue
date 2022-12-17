@@ -2,7 +2,7 @@
 const errorMessage = ref('');
 const state = reactive({
   email: 'soka@soka.hu',
-  password: 'abc123',
+  password: '',
 });
 
 const query = gql`

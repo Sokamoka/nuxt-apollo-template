@@ -1,5 +1,8 @@
 import { connectDb } from './mongodb/database.js';
 import createHttpServer from './src/server.js';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 // Create Express server
 const port = 4005;

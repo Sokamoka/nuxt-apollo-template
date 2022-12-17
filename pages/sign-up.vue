@@ -2,8 +2,8 @@
 const errorMessage = ref('');
 
 const state = reactive({
-  username: 'Akos Stegner',
-  email: 'soka@soka.hu',
+  username: '',
+  email: '',
   password: '',
 });
 

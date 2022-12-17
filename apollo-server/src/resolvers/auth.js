@@ -1,7 +1,7 @@
 import { GraphQLError } from 'graphql';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import { User } from '../../mongodb/schema.js';
+import { signToken } from '../../utils/token.js';
 
 export const resolvers = {
   Mutation: {
@@ -23,17 +23,7 @@ export const resolvers = {
         password: encryptedPassword,
       });
 
-      const token = jwt.sign(
-        {
-          user_id: newUser._id,
-          email,
-        },
-        'UNSAFE_STRING',
-        {
-          expiresIn: '2h',
-        }
-      );
-
+      const token = await signToken(newUser._id.toString());
       newUser.token = token;
 
       const res = await newUser.save();
@@ -46,18 +36,9 @@ export const resolvers = {
 
     async loginUser(_, { loginInput: { email, password } }) {
       const user = await User.findOne({ email });
-
-      if (user && bcrypt.compare(password, user.password)) {
-        const token = jwt.sign(
-          {
-            user_id: user._id,
-            email,
-          },
-          'UNSAFE_STRING',
-          {
-            expiresIn: '2h',
-          }
-        );
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      if (user && isValidPassword) {
+        const token = await signToken(user._id.toString());
 
         user.token = token;
         await user.save();
