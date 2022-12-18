@@ -1,7 +1,8 @@
 import * as test from './test.js';
 import * as auth from './auth.js';
+import * as users from './users.js';
 
-export const typeDefs = [test.typeDefs, auth.typeDefs];
+export const typeDefs = [test.typeDefs, auth.typeDefs, users.typeDefs];
 // export const typeDefs = [];
 
 // import fs from 'fs';

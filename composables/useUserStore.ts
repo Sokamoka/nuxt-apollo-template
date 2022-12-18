@@ -15,7 +15,7 @@ const defaultState = {
 export const useUserStore = defineStore('user', {
   state: () => ({ user: <User | null>useLocalStorage('user', defaultState) }),
   hydrate(state) {
-    state.user = useLocalStorage('user', defaultState);
+    state.user = <User>useLocalStorage('user', defaultState);
   },
   getters: {
     getUser: (state) => state.user,

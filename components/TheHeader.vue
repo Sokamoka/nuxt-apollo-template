@@ -1,9 +1,9 @@
 <script setup>
 const navigation = [
   { name: 'Dashboard', to: '/dashboard' },
-  // { name: 'Pricing', href: '#' },
-  // { name: 'Docs', href: '#' },
-  // { name: 'Company', href: '#' },
+  { name: 'Admin', to: '/' },
+  // { name: 'Docs', to: '#' },
+  // { name: 'Company', to: '#' },
 ];
 
 const router = useRouter();

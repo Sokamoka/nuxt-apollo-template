@@ -1,9 +1,11 @@
 import * as test from './test.js';
 import * as auth from './auth.js';
+import * as users from './users.js';
 
 export const resolvers = {
   ...test.resolvers,
   ...auth.resolvers,
+  ...users.resolvers,
 };
 
 // import fs from "fs";
