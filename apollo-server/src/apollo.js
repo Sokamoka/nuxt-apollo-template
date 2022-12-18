@@ -3,9 +3,14 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { authDirective } from './directives/authDirective.js';
 
 export function configApollo(httpServer, typeDefs, resolvers) {
-  const schema = makeExecutableSchema({ typeDefs, resolvers });
+  const { authDirectiveTypeDefs, authDirectiveTransformer } = authDirective('auth');
+  const directiveTransformers = [authDirectiveTransformer];
+
+  let schema = makeExecutableSchema({ typeDefs: [authDirectiveTypeDefs, typeDefs], resolvers });
+  schema = directiveTransformers.reduce((curSchema, transformer) => transformer(curSchema), schema);
 
   // Set up WebSocket server.
   const wsServer = new WebSocketServer({

@@ -21,9 +21,10 @@ export const resolvers = {
         username,
         email: email.toLowerCase(),
         password: encryptedPassword,
+        role: 'USER',
       });
 
-      const token = await signToken(newUser._id.toString());
+      const token = await signToken(newUser._id.toString(), newUser.role);
       newUser.token = token;
 
       const res = await newUser.save();
@@ -38,7 +39,7 @@ export const resolvers = {
       const user = await User.findOne({ email });
       const isValidPassword = await bcrypt.compare(password, user.password);
       if (user && isValidPassword) {
-        const token = await signToken(user._id.toString());
+        const token = await signToken(user._id.toString(), user.role);
 
         user.token = token;
         await user.save();
