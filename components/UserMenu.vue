@@ -1,5 +1,7 @@
 <script setup lang="ts">
 const userStore = useUserStore();
+
+userStore.queryUser();
 </script>
 
 <template>

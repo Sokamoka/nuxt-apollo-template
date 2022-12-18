@@ -1,5 +1,7 @@
-import { PubSub } from "graphql-subscriptions";
+import { PubSub } from 'graphql-subscriptions';
 const pubsub = new PubSub();
+
+let currentNumber = 0;
 
 export const resolvers = {
   Query: {
@@ -9,15 +11,14 @@ export const resolvers = {
   },
   Subscription: {
     numberIncremented: {
-      subscribe: () => pubsub.asyncIterator(["NUMBER_INCREMENTED"]),
+      subscribe: () => pubsub.asyncIterator(['NUMBER_INCREMENTED']),
     },
   },
 };
 
-let currentNumber = 0;
 function incrementNumber() {
   currentNumber++;
-  pubsub.publish("NUMBER_INCREMENTED", { numberIncremented: currentNumber });
+  pubsub.publish('NUMBER_INCREMENTED', { numberIncremented: currentNumber });
   setTimeout(incrementNumber, 1000);
 }
 

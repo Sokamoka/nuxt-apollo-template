@@ -1,11 +1,23 @@
-import * as test from './test.js';
-import * as auth from './auth.js';
-import * as users from './users.js';
+import { resolvers as test } from './test.js';
+import { resolvers as auth } from './auth.js';
+import { resolvers as users } from './users.js';
 
 export const resolvers = {
-  ...test.resolvers,
-  ...auth.resolvers,
-  ...users.resolvers,
+  Query: {
+    ...test.Query,
+    ...auth.Query,
+    ...users.Query,
+  },
+  Mutation: {
+    ...test.Mutation,
+    ...auth.Mutation,
+    ...users.Mutation,
+  },
+  Subscription: {
+    ...test.Subscription,
+    ...auth.Subscription,
+    ...users.Subscription,
+  },
 };
 
 // import fs from "fs";

@@ -1,7 +1,7 @@
 <script setup>
 const navigation = [
   { name: 'Dashboard', to: '/dashboard' },
-  { name: 'Admin', to: '/' },
+  { name: 'Admin', to: '/admin' },
   // { name: 'Docs', to: '#' },
   // { name: 'Company', to: '#' },
 ];
