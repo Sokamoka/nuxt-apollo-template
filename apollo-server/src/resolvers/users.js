@@ -9,5 +9,10 @@ export const resolvers = {
         ...user._doc,
       };
     },
+
+    async users() {
+      const users = await User.find({});
+      return users;
+    },
   },
 };
