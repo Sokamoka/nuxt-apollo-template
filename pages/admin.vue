@@ -1,14 +1,21 @@
 <script setup lang="ts">
+definePageMeta({
+  role: ['ADMIN'],
+  middleware: ['auth-test'],
+});
+
 const query = gql`
   query Users {
     users {
       id
       username
       email
+      role
     }
   }
 `;
-const { data } = await useAsyncQuery(query);
+const { result, error } = useQuery(query);
+const users = computed(() => result.value?.users || []);
 </script>
 
 <template>
@@ -26,6 +33,10 @@ const { data } = await useAsyncQuery(query);
         </button>
       </div>
     </div> -->
+    <ClientOnly>
+      <div v-if="error" class="text-red-500">{{ error.message }}</div>
+    </ClientOnly>
+
     <div class="px-4 sm:px-6 lg:px-8">
       <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
@@ -61,7 +72,7 @@ const { data } = await useAsyncQuery(query);
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white">
-            <tr v-for="user in data.users" :key="user.id">
+            <tr v-for="user in users" :key="user.id">
               <td
                 class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6"
               >

@@ -4,6 +4,7 @@ export const typeDefs = `#graphql
     username: String
     email: String!
     password: String
+    role: String
     token: String
   }
 

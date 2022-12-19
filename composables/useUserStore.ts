@@ -6,16 +6,16 @@ interface User {
   email: string;
 }
 
-const defaultState = {
+const defaultState = () => ({
   id: '',
   username: '',
   email: '',
-};
+});
 
 export const useUserStore = defineStore('user', {
-  state: () => ({ user: <User | null>useLocalStorage('user', defaultState) }),
+  state: () => ({ user: <User | null>useLocalStorage('user', defaultState()) }),
   hydrate(state) {
-    state.user = <User>useLocalStorage('user', defaultState);
+    state.user = <User>useLocalStorage('user', defaultState());
   },
   getters: {
     getUser: (state) => state.user,
@@ -40,6 +40,7 @@ export const useUserStore = defineStore('user', {
             id
             username
             email
+            role
           }
         }
       `;
