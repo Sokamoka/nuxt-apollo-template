@@ -81,7 +81,6 @@ export const useAuthStore = defineStore('auth', () => {
     });
 
     onDone((result) => {
-      console.log(result);
       const { id, username, email, token } = result.data?.loginUser || {};
       userStore.updateUser({ id, username, email });
       onLogin(token);

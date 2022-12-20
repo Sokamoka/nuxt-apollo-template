@@ -1,68 +1,65 @@
-import { useLocalStorage } from '@vueuse/core';
+// import { useLocalStorage } from '@vueuse/core';
 
-interface User {
+export interface User {
   id: string;
   username: string;
   email: string;
+  role: string;
 }
 
-const defaultState = () => ({
-  id: '',
-  username: '',
-  email: '',
-});
+export const useUserStore = defineStore('user', () => {
+  const user = useCookie<User>('user');
 
-export const useUserStore = defineStore('user', {
-  state: () => ({ user: <User | null>useLocalStorage('user', defaultState()) }),
-  hydrate(state) {
-    state.user = <User>useLocalStorage('user', defaultState());
-  },
-  getters: {
-    getUser: (state) => state.user,
-    isSignIn: (state) => Boolean(state.user?.id),
-  },
-  actions: {
-    updateUser(payload: User) {
-      this.user = payload;
-    },
+  const router = useRouter();
+  const authStore = useAuthStore();
 
-    resetUser() {
-      this.user = null;
-    },
+  const isSignIn = computed(() => Boolean(user.value?.id));
 
-    queryUser() {
-      const router = useRouter();
-      const authStore = useAuthStore();
+  const updateUser = (payload: User) => {
+    user.value = payload;
+  };
 
-      const query = gql`
-        query User($userId: ID!) {
-          user(id: $userId) {
-            id
-            username
-            email
-            role
-          }
+  const resetUser = () => {
+    user.value = null;
+  };
+
+  const queryUser = () => {
+    const query = gql`
+      query User($userId: ID!) {
+        user(id: $userId) {
+          id
+          username
+          email
+          role
         }
-      `;
-      const variables = { userId: this.user?.id };
-      const { onResult, onError } = useQuery(query, variables, {
-        pollInterval: 1000 * 60,
-      });
+      }
+    `;
+    const variables = { userId: user.value?.id };
+    const { onResult, onError } = useQuery(query, variables, {
+      pollInterval: 1000 * 60,
+    });
 
-      onResult(({data}) => {
-        this.updateUser(data?.user);
-      });
+    onResult(({ data }) => {
+      updateUser(data?.user);
+    });
 
-      onError(({ networkError, graphQLErrors }) => {
-        console.dir({ graphQLErrors });
-        // console.dir(networkError?.result?.errors[0]?.extensions.code);
-        const networkErrorCode = networkError?.result?.errors[0]?.extensions.code;
-        if (networkErrorCode === 'INVALID_OR_EXPIRED_TOKEN') {
-          console.log('TOKEN_EXPIRED');
-          authStore.signOut();
-          router.push('/sign-in');
-        }
-      });
-    },
-  },
+    onError(({ networkError, graphQLErrors }) => {
+      console.dir({ graphQLErrors });
+      // console.dir(networkError?.result?.errors[0]?.extensions.code);
+      const networkErrorCode = networkError?.result?.errors[0]?.extensions.code;
+      if (networkErrorCode === 'INVALID_OR_EXPIRED_TOKEN') {
+        console.log('TOKEN_EXPIRED');
+        authStore.signOut();
+        router.push('/sign-in');
+      }
+    });
+  };
+
+  return {
+    user,
+    isSignIn,
+    updateUser,
+    resetUser,
+    queryUser,
+  };
 });

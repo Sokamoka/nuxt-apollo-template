@@ -1,8 +1,16 @@
 <script setup lang="ts">
 definePageMeta({
   role: ['ADMIN'],
-  middleware: ['auth-test'],
+  middleware: ['auth'],
 });
+
+interface User {
+  id: string;
+  username: string;
+  email: string;
+  title: string;
+  role: string;
+}
 
 const query = gql`
   query Users {
@@ -14,8 +22,8 @@ const query = gql`
     }
   }
 `;
-const { result, error } = useQuery(query);
-const users = computed(() => result.value?.users || []);
+const { data, error } = await useAsyncQuery<{ users: User[] }>(query);
+const users = computed(() => data.value?.users || []);
 </script>
 
 <template>
@@ -33,9 +41,9 @@ const users = computed(() => result.value?.users || []);
         </button>
       </div>
     </div> -->
-    <ClientOnly>
-      <div v-if="error" class="text-red-500">{{ error.message }}</div>
-    </ClientOnly>
+    <!-- <ClientOnly> -->
+    <div v-if="error" class="text-red-500">{{ error.message }}</div>
+    <!-- </ClientOnly> -->
 
     <div class="px-4 sm:px-6 lg:px-8">
       <div class="sm:flex sm:items-center">
