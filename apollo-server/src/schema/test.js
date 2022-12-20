@@ -4,6 +4,6 @@ export const typeDefs = `#graphql
   }
 
   type Subscription {
-    numberIncremented: Int
+    numberIncremented: Int @auth(requires: USER)
   }
 `;

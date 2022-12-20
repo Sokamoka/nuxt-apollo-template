@@ -1,9 +1,7 @@
 import { GraphQLError } from 'graphql';
 import { verifyToken } from '../utils/token.js';
 
-export const context = async ({ req }) => {
-  const authHeader = req.headers.authorization;
-
+export const createContext = async (authHeader) => {
   if (authHeader) {
     const token = getToken(authHeader);
     if (token) {

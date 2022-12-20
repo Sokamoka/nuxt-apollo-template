@@ -3,6 +3,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { createContext } from './context.js';
 import { authDirective } from './directives/authDirective.js';
 
 export function configApollo(httpServer, typeDefs, resolvers) {
@@ -17,7 +18,13 @@ export function configApollo(httpServer, typeDefs, resolvers) {
     server: httpServer,
     path: '/graphql',
   });
-  const serverCleanup = useServer({ schema }, wsServer);
+  const serverCleanup = useServer(
+    {
+      schema,
+      context: (ctx) => createContext(ctx.connectionParams?.Authorization),
+    },
+    wsServer
+  );
 
   // Use Apollo Server as GraphQL middleware
   return new ApolloServer({

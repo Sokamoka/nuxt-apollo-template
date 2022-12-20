@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import { createServer } from 'http';
 import { expressMiddleware } from '@apollo/server/express4';
 import { configApollo } from './apollo.js';
-import { context } from './context.js';
+import { createContext } from './context.js';
 import { typeDefs } from './schema/index.js';
 import { resolvers } from './resolvers/index.js';
 
@@ -35,12 +35,7 @@ export default function createHttpServer() {
       cors(),
       bodyParser.json(),
       expressMiddleware(apolloServer, {
-        context,
-        // context: ({ req }) => {
-        //   // console.log('req:', req.headers);
-        //   const user = req.headers.user ? JSON.parse(req.headers.user) : null;
-        //   return { user };
-        // },
+        context: ({ req }) => createContext(req.headers?.authorization),
       })
     );
   }

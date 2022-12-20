@@ -30,7 +30,6 @@ export default defineNuxtConfig({
         httpLinkOptions: {
           credentials: 'same-origin',
         },
-
         defaultOptions: {
           watchQuery: {
             fetchPolicy: 'cache-and-network',
