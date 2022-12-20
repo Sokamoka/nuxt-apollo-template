@@ -29,7 +29,7 @@ onSubcriptionResult(({ data }) => {
 </script>
 
 <template>
-  <div class="w-screen h-screen flex items-center justify-center">
+  <div class="h-full flex items-center justify-center">
     <ClientOnly>
       <p class="text-9xl font-bold">{{ baseNumber }}</p>
     </ClientOnly>

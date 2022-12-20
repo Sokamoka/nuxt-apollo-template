@@ -42,7 +42,7 @@ const users = computed(() => data.value?.users || []);
     <div class="px-4 sm:px-6 lg:px-8">
       <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-          <h1 class="text-xl font-semibold text-gray-900">Users</h1>
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Users</h1>
           <p class="mt-2 text-sm text-gray-700">
             A list of all the users in your account including their name, title, email and role.
           </p>
