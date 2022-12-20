@@ -1,5 +1,7 @@
+import { User } from '../types';
+
 export default defineNuxtRouteMiddleware((to) => {
-  const user = useCookie<{ role: string; id: string }>('user');
+  const user = useCookie<User>('user');
   if (!user.value?.id) return navigateTo('/sign-in');
-  if (!Object.values(to.meta.role).includes(user.value?.role)) return navigateTo('/401');
+  if (!Object.values(to.meta.role as string).includes(user.value?.role)) return navigateTo('/401');
 });

@@ -1,5 +1,4 @@
 import { GraphQLError } from 'graphql';
-// import { User } from '../mongodb/schema.js';
 import { verifyToken } from '../utils/token.js';
 
 export const context = async ({ req }) => {
@@ -22,7 +21,6 @@ export const context = async ({ req }) => {
           },
         });
       }
-      // const user = await User.findOne({ token });
     } else {
       throw new GraphQLError(`Authentication header must be 'Bearer [token]'`, {
         extensions: {

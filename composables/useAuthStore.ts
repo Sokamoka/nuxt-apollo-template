@@ -56,6 +56,7 @@ export const useAuthStore = defineStore('auth', () => {
           id
           email
           username
+          role
           token
         }
       }
@@ -81,14 +82,14 @@ export const useAuthStore = defineStore('auth', () => {
     });
 
     onDone((result) => {
-      const { id, username, email, token } = result.data?.loginUser || {};
-      userStore.updateUser({ id, username, email });
+      const { id, username, email, role, token } = result.data?.loginUser || {};
+      userStore.updateUser({ id, username, email, role });
       onLogin(token);
       router.push({ path: '/dashboard' });
     });
 
     onError((error) => {
-      console.dir(signInError);
+      console.dir(error);
       console.dir(error.message);
       errorMessage.value = error.message;
     });

@@ -1,16 +1,10 @@
 <script setup lang="ts">
+import { User } from '../types';
+
 definePageMeta({
   role: ['ADMIN'],
   middleware: ['auth'],
 });
-
-interface User {
-  id: string;
-  username: string;
-  email: string;
-  title: string;
-  role: string;
-}
 
 const query = gql`
   query Users {
@@ -67,9 +61,9 @@ const users = computed(() => data.value?.users || []);
           <thead class="bg-gray-50">
             <tr>
               <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-              <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
+              <!-- <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
                 Title
-              </th>
+              </th> -->
               <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
                 Email
               </th>
@@ -86,13 +80,13 @@ const users = computed(() => data.value?.users || []);
               >
                 {{ user.username }}
                 <dl class="font-normal lg:hidden">
-                  <dt class="sr-only">Title</dt>
-                  <dd class="mt-1 truncate text-gray-700">{{ user?.title }}</dd>
+                  <!-- <dt class="sr-only">Title</dt> -->
+                  <!-- <dd class="mt-1 truncate text-gray-700">{{ user?.title }}</dd> -->
                   <dt class="sr-only sm:hidden">Email</dt>
                   <dd class="mt-1 truncate text-gray-500 sm:hidden">{{ user.email }}</dd>
                 </dl>
               </td>
-              <td class="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{{ user?.title }}</td>
+              <!-- <td class="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{{ user?.title }}</td> -->
               <td class="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ user.email }}</td>
               <td class="px-3 py-4 text-sm text-gray-500">{{ user?.role }}</td>
               <td class="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">

@@ -1,11 +1,6 @@
-// import { useLocalStorage } from '@vueuse/core';
-
-export interface User {
-  id: string;
-  username: string;
-  email: string;
-  role: string;
-}
+import { ApolloError } from '@apollo/client/core';
+import { ErrorResponse } from '@apollo/client/link/error';
+import { User } from '../types';
 
 export const useUserStore = defineStore('user', () => {
   const user = useCookie<User>('user');
@@ -43,8 +38,9 @@ export const useUserStore = defineStore('user', () => {
       updateUser(data?.user);
     });
 
-    onError(({ networkError, graphQLErrors }) => {
-      console.dir({ graphQLErrors });
+    onError((error: ErrorResponse | ApolloError) => {
+      const { networkError, graphQLErrors } = error;
+      console.dir({ graphQLErrors, networkError });
       // console.dir(networkError?.result?.errors[0]?.extensions.code);
       const networkErrorCode = networkError?.result?.errors[0]?.extensions.code;
       if (networkErrorCode === 'INVALID_OR_EXPIRED_TOKEN') {
